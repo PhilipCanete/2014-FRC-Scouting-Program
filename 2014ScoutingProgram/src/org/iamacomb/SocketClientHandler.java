@@ -103,7 +103,6 @@ public class SocketClientHandler implements Runnable{
 		is_cap = read.readLine();
 		max_cap = read.readLine();
 		total_points = read.readLine();
-		
-		
+
 	}
 }
