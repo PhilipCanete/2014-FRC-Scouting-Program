@@ -1,0 +1,10 @@
+Le Changelog
+
+08/07/2015 -- RELEASE 1
+Created the repository on Github and set up the local project
+Main.java created as dummy
+
+09/07/2015
+Basic questionnaire and input worked on client side
+Client and server set up
+Client and server are Ready for test (potentially a RELEASE 2) :D

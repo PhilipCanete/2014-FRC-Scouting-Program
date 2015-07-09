@@ -1,10 +1,96 @@
 package org.iamacomb;
 
 import java.util.Scanner; //This will be the temporary input method in the release, AWT and Swing will be used later for a GUI
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client {
+	
+	private String hostname;
+	private int port;
+	private int team_number;
+	Socket socketClient;
+	
+	public Client(String hostname, int port, int team_number){
+		this.hostname = hostname;
+		this.port = port;
+		this.team_number = team_number;
+	}
+	
+	public Client(String hostname, int port){
+		this.hostname = hostname;
+		this.port = port;
+		team_number = 0; // default team number
+	}
+	
+	public Client(){}
+	
+	
+	public void connect() throws UnknownHostException, IOException{
+		System.out.println("Attempting to connect to " + hostname + ":" + port + "for team number " + team_number);
+		socketClient = new Socket(hostname, port);
+		System.out.println("Connection established!");
+	}
+	
+	public void readResponse() throws IOException{
+		String userInput;
+		BufferedReader stdIn = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+		System.out.println("RESPONSE FROM SERVER: ");
+		while((userInput = stdIn.readLine()) != null){
+			System.out.println(userInput);
+		}
+	}
+	
+	public void send_data() throws IOException{
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
+		writer.write("SEND_DATA");
+		writer.newLine();
+		writer.write(receive_input("Enter team number: ", true));
+		writer.newLine();
+		writer.write(receive_input("Rate their autonomous from 1-10: ", true));
+		writer.newLine();
+		writer.write(receive_input("Describe their autonomous period.", true));
+		writer.newLine();
+		writer.write(receive_input("Coopertition stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many one stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many two stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many three stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many four stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many five stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("How many six stacks did they stack? ", true));
+		writer.newLine();
+		writer.write(receive_input("Can they cap? ", true));
+		writer.newLine();
+		writer.write(receive_input("How high of a stack can they cap? (1-6) ", true));
+		writer.newLine();
+		writer.write(receive_input("How many total points did they contribute to the team? ", true));
+		writer.newLine();
+		
+		writer.flush();
+	}
+	
 	public static void main(String[] args){
-		Client c = new Client();
+		Client c = new Client("localhost", 4810, 4810);
+		
+		try{
+			c.connect();
+			c.send_data();
+			c.readResponse();
+		}catch(UnknownHostException e){
+			System.err.println("Host unknown. Cannot establish connection");
+		}catch(IOException e){
+			System.err.println("Cannot establish connection. Server may not be up. " + e.getMessage());
+		}
+		
+		
+		/*
 		String team_number = c.receive_input("Enter team number: ", true); //could be unique-assigned ID like in mysql (int makes it easier)
 		String auton_strength = c.receive_input("Rate their autonomous from 1-10: ", true); //could be int and more specific
 		String auton_desc = c.receive_input("Describe their autonomous period.", true); //string only, java textbox
@@ -34,7 +120,7 @@ public class Client {
 		System.out.println("Capping Capabilities: " + is_cap);
 		System.out.println("Capping Ability: " + max_cap);
 		System.out.println("Total Points Contributed to the Team: " + total_points);
-		
+		*/
 		
 	}
 	
