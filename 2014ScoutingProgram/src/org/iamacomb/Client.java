@@ -28,7 +28,7 @@ public class Client {
 	
 	
 	public void connect() throws UnknownHostException, IOException{
-		System.out.println("Attempting to connect to " + hostname + ":" + port + "for team number " + team_number);
+		System.out.println("Attempting to connect to " + hostname + ":" + port + " for team number " + team_number);
 		socketClient = new Socket(hostname, port);
 		System.out.println("Connection established!");
 	}
@@ -44,36 +44,36 @@ public class Client {
 	
 	public void send_data() throws IOException{
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
-		writer.write("SEND_DATA");
-		writer.newLine();
-		writer.write(receive_input("Enter team number: ", true));
-		writer.newLine();
-		writer.write(receive_input("Rate their autonomous from 1-10: ", true));
-		writer.newLine();
-		writer.write(receive_input("Describe their autonomous period.", true));
-		writer.newLine();
-		writer.write(receive_input("Coopertition stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many one stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many two stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many three stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many four stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many five stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("How many six stacks did they stack? ", true));
-		writer.newLine();
-		writer.write(receive_input("Can they cap? ", true));
-		writer.newLine();
-		writer.write(receive_input("How high of a stack can they cap? (1-6) ", true));
-		writer.newLine();
-		writer.write(receive_input("How many total points did they contribute to the team? ", true));
-		writer.newLine();
+		writer.write("SEND_DATA" + '\n');
+		//writer.newLine();
+		writer.write(receive_input("Enter team number: ", true) + '\n');
+		//writer.newLine();
+		writer.write(receive_input("Rate their autonomous from 1-10: ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("Describe their autonomous period.", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("Coopertition stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many one stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many two stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many three stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many four stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many five stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many six stacks did they stack? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("Can they cap? ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How high of a stack can they cap? (1-6) ", true)+ '\n');
+		//writer.newLine();
+		writer.write(receive_input("How many total points did they contribute to the team? ", true)+ '\n');
 		
 		writer.flush();
+		writer.close();
 	}
 	
 	public static void main(String[] args){
@@ -81,8 +81,28 @@ public class Client {
 		
 		try{
 			c.connect();
-			c.send_data();
-			c.readResponse();
+			Scanner something = new Scanner(System.in);
+			System.out.println("Send data? Or Retreive data from server? (s for send / r for receive)");
+			String response = "";
+			while(response != "r" || response != "s"){
+				response = something.next();
+				
+				
+				System.out.println("You entered " + response);	
+		
+			
+			}
+			System.out.println("Out of loop");
+		
+			if(response == "r"){
+				c.readResponse();
+			}else if(response == "s"){
+				c.send_data();
+			}	
+			
+			something.close();
+			
+		
 		}catch(UnknownHostException e){
 			System.err.println("Host unknown. Cannot establish connection");
 		}catch(IOException e){

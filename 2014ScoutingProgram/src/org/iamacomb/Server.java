@@ -37,10 +37,11 @@ public class Server {
 	
 	public static void main(String[] args){
 		int portNumber = 4810; //static, will add feature for custom port numbers as well
+		int teamNumber = 4810;
 		
 		try{
 			//initialzing socket server
-			Server socketServer = new Server(portNumber);
+			Server socketServer = new Server(portNumber, teamNumber);
 			socketServer.start();
 		}catch (IOException e){
 			e.printStackTrace();

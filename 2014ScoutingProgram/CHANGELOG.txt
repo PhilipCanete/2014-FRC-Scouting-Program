@@ -8,3 +8,6 @@ Main.java created as dummy
 Basic questionnaire and input worked on client side
 Client and server set up
 Client and server are Ready for test (potentially a RELEASE 2) :D
+
+10/07/2015
+Revisions are made to the server so that it could receive data
